@@ -7,4 +7,5 @@
 - input: used to enable/disable input devices
 - install: used to symlink these scripts to /usr/local/bin without the .sh extension
 - memdump: used to dump the memory of a process
+- s: "secrets"; used to inject secret environment variables into a command
 - zed: "EZ sed" - a wrapper around sed that makes it easier to use; taken from [easy-sed](https://github.com/jayalmaraz/easy-sed)
