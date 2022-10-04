@@ -6,8 +6,8 @@
 # if the script is run with the --uninstall flag, it will remove the symlinks
 #   from /usr/local/bin. Otherwise, it will create the symlinks.
 
-# this script is idempotent. It will not create symlinks if they already exist
-#   and it will not remove symlinks if they do not exist.
+# this script is idempotent. it will not create or remove symlinks if they
+#   already exist or do not exist, respectively.
 
 if [[ "$1" == "--uninstall" ]]; then
   echo "Removing symlinks from /usr/local/bin..."
