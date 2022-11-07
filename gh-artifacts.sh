@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 source .env
+set -a # test curl commands with $HEADERS again, since this may fix the vars
 
 # from .env file:
 # GH_USER=""
