@@ -2,6 +2,7 @@
 `./install.sh`
 
 ## Scripts
+- alias.py: quickly generate a "send to" address for email alias services; to be used in-tandem with Espanso
 - get-all-virsh-ips: used to get all the IPs of the VMs in a virsh environment
 - gh-artifacts: used to download artifacts from a GitHub Actions workflow
 - input: used to enable/disable input devices
