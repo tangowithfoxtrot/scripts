@@ -87,7 +87,7 @@ class DigitalOcean(object):
 
     def delete_droplet(self, droplet_id):
         return self.delete(API_URL + '/droplets/{}'.format(droplet_id))
-    
+
     def get_sizes_in_region(self, region_slug):
         response = self.get(API_URL + '/regions')
         regions = response.json()['regions']
@@ -99,7 +99,7 @@ class DigitalOcean(object):
     def list_ssh_keys(self):
         return self.get(API_URL + '/account/keys')
 
-do = DigitalOcean(os.environ['do_token'])
+do = DigitalOcean(os.environ['DO_TOKEN'])
 
 def main():
     if len(sys.argv) == 1:
@@ -131,8 +131,6 @@ def main():
     elif sys.argv[1] == 'list' or sys.argv[1] == 'ls':
         if sys.argv[2] == 'ssh_keys':
             r = do.list_ssh_keys()
-            # print(r.status_code)
-            # print(r.text)
             keys = []
             for ssh_key in do.list_ssh_keys().json()['ssh_keys']:
                 keys.append(ssh_key['fingerprint'])

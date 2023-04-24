@@ -31,8 +31,9 @@ fi
 
 # load secrets as environment variables with ansible-vault
 # and export them as environment variables.
-eval $(ansible-vault view $SECRETS_FILE | sed -e 's/:[^:\/\/]/=/g' -e 's/^/export /')
+eval "$(ansible-vault view "$SECRETS_FILE" | sed -e 's/:[^:\/\/]/=/g' -e 's/^/export /')"
 
+# shellcheck disable=SC2124
 USER_COMMAND="$@"
 
 for arg in $USER_COMMAND; do
@@ -43,7 +44,8 @@ for arg in $USER_COMMAND; do
 done
 
 # execute the virtual shell command
-eval $VIRTUAL_SHELL_COMMAND
+eval "$VIRTUAL_SHELL_COMMAND"
 
 # remove the environment variables
-unset -v $(ansible-vault view $SECRETS_FILE | grep -v '^#' | sed -e 's/:.*//')
+# shellcheck disable=SC2046
+unset -v $(ansible-vault view "$SECRETS_FILE" | grep -v '^#' | sed -e 's/:.*//')
