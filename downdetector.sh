@@ -1,27 +1,34 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2269
 
 SLEEP_TIME=3
-NTFY_HOST="" # "https://ntfy.example.com/downdetector"
+NTFY_HOST="${NTFY_HOST}" # "https://ntfy.example.com/downdetector"
 
 declare -A fail_counts
+declare -A last_notified
 
-readarray -t ips <ips.txt
+readarray -t hosts <hosts.txt # newline-separated list of hosts
 
 while true; do
-  for ip in "${ips[@]}"; do
-    echo "Pinging $ip"
-    ping_status="$(ping -c 1 -W 1 "$ip" | grep "1 packets received")"
+  for host in "${hosts[@]}"; do
+    echo "Pinging $host"
+    ping_status="$(ping -c 1 -W 1 "$host" | grep "1 packets received")"
     if [ -z "$ping_status" ]; then
-      echo "Host $ip is down"
-      fail_counts["$ip"]=$((fail_counts["$ip"] + 1))
+      echo "Host $host is down"
+      fail_counts["$host"]=$((fail_counts["$host"] + 1))
     else
-      echo "Host $ip is up"
-      fail_counts["$ip"]=0
+      echo "Host $host is up"
+      fail_counts["$host"]=0
     fi
-    if [ "${fail_counts["$ip"]}" -eq 3 ]; then
-      echo "Host $ip is down"
-      curl -d "Host $ip is down" "$NTFY_HOST"
-      fail_counts["$ip"]=0
+    if [ "${fail_counts["$host"]}" -eq 3 ]; then
+      echo "Host $host is down"
+      current_time=$(date +%s)
+      if [ -z "${last_notified["$host"]}" ] ||
+        [ $((current_time - last_notified["$host"])) -ge 86400 ]; then
+        curl -d "Host $host is down" "$NTFY_HOST"
+        last_notified["$host"]=$current_time
+      fi
+      fail_counts["$host"]=0
     fi
     sleep "$SLEEP_TIME"
   done
