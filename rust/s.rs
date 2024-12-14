@@ -43,7 +43,6 @@ struct Cli {
     #[arg(
         short = 'i',
         long = "ignore-env",
-        // action = clap::ArgAction::SetTrue,
     )]
     ignore_env: bool,
 }
