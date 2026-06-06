@@ -1,4 +1,4 @@
-#!/usr/bin/env cargo +nightly -Zscript -q
+#!/usr/bin/env -S cargo +nightly -Zscript -q
 ---cargo
 [dependencies]
 ansible-vault = "0.2.1"
